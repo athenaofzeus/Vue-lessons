@@ -20,8 +20,7 @@ export default {
   text-align: right;
   font-size: 20px;
   line-height: 25px;
-  width: 200px;
-  height: 300px;
+  max-width: 800px;
   margin: 0 auto;
   padding-top: 100px;
 }
