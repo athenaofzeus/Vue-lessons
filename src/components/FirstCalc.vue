@@ -19,7 +19,7 @@
         <button class="butt-operator" v-for="operator in operators" :title="operator" :key="operator" :disabled="(operand1 === '' || operand2 === '')" @click="calculation(operator)">{{operator}}</button>
       </div>
       <div class="keybord">
-        <div class="num-buttons" v-if="checked">
+        <div class="num-buttons" v-show="checked">
           <button class="number" v-for="num in keybord" :key="num" value="num" @click="inputNum(num)">{{ num }}</button>
         </div>
         <input type="checkbox" id="checkbox" v-model="checked">
@@ -34,7 +34,6 @@
 </template>
 
 <script>
-import Vue from 'vue'
 export default {
   name: 'FirstCalc',
   data () {
@@ -56,35 +55,53 @@ export default {
       this.error = ''
       switch (operator) {
         case '+':
-          this.result = this.operand1 + this.operand2
-          this.fibResult = this.fib1 + this.fib2
+          this.sum()
           break
         case '-':
-          this.result = this.operand1 - this.operand2
-          this.fibResult = this.fib1 - this.fib2
+          this.sub()
           break
         case '*':
-          this.result = this.operand1 * this.operand2
-          this.fibResult = this.fib1 * this.fib2
+          this.mult()
           break
         case '/':
-          this.result = this.operand1 / this.operand2
-          this.fibResult = this.fib1 / this.fib2
-          if (this.result === Infinity) {
-            this.error = 'Недопустимое значение'
-          }
+          this.div()
           break
         case '//':
-          this.result = Math.floor(this.operand1 / this.operand2)
-          this.fibResult = Math.floor(this.fib1 / this.fib2)
+          this.divRound()
           break
         case '^':
-          this.result = this.operand1 ** this.operand2
-          this.fibResult = this.fib1 ** this.fib2
+          this.power()
           break
       }
-      this.logs[Date.now()] = `${this.operand1} ${operator} ${this.operand2} = ${this.result}`
-      Vue.set(this.logs, Date.now(), `${this.operand1} ${operator} ${this.operand2} = ${this.result}`)
+      // this.logs[Date.now()] = `${this.operand1} ${operator} ${this.operand2} = ${this.result}`
+      this.$set(this.logs, Date.now(), `${this.operand1} ${operator} ${this.operand2} = ${this.result}`)
+    },
+    sum () {
+      this.result = this.operand1 + this.operand2
+      this.fibResult = this.fib1 + this.fib2
+    },
+    sub () {
+      this.result = this.operand1 - this.operand2
+      this.fibResult = this.fib1 - this.fib2
+    },
+    mult () {
+      this.result = this.operand1 * this.operand2
+      this.fibResult = this.fib1 * this.fib2
+    },
+    div () {
+      this.result = this.operand1 / this.operand2
+      this.fibResult = this.fib1 / this.fib2
+      if (this.result === Infinity) {
+        this.error = 'Недопустимое значение'
+      }
+    },
+    divRound () {
+      this.result = Math.floor(this.operand1 / this.operand2)
+      this.fibResult = Math.floor(this.fib1 / this.fib2)
+    },
+    power () {
+      this.result = this.operand1 ** this.operand2
+      this.fibResult = this.fib1 ** this.fib2
     },
     fib (n) {
       return n <= 1 ? n : this.fib(n - 1) + this.fib(n - 2)
@@ -158,7 +175,6 @@ export default {
     font-size: 18px;
   }
   .history {
-    background-color: darkgray;
     padding-top: 3px;
   }
   label {
